@@ -102,7 +102,7 @@ vim.g.have_nerd_font = false
 vim.opt.number = true
 -- You can also add relative line numbers, to help with jumping.
 --  Experiment for yourself to see if you like it!
--- vim.opt.relativenumber = true
+vim.opt.relativenumber = true
 
 -- Enable mouse mode, can be useful for resizing splits for example!
 vim.opt.mouse = 'a'
@@ -118,11 +118,19 @@ vim.schedule(function()
   vim.opt.clipboard = 'unnamedplus'
 end)
 
--- Enable break indent
-vim.opt.breakindent = true
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.expandtab = true
 
+vim.opt.wrap = false
+-- Enable break indent
+-- vim.opt.breakindent = true
+
+vim.opt.swapfile = false
+-- vim.opt.backup = false -- Default is false
 -- Save undo history
-vim.opt.undofile = true
+-- vim.opt.undofile = true
 
 -- Case-insensitive searching UNLESS \C or one or more capital letters in the search term
 vim.opt.ignorecase = true
@@ -156,6 +164,9 @@ vim.opt.cursorline = true
 -- Minimal number of screen lines to keep above and below the cursor.
 vim.opt.scrolloff = 10
 
+-- vim.opt.foldmethod = 'syntax'
+vim.opt.filetype = 'on'
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -188,6 +199,15 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+-- Open Explore
+vim.keymap.set('n', '<leader>te', vim.cmd.Ex)
+
+-- Delete without yanking
+vim.keymap.set({'n', 'v'}, '<leader>d', [["_d]])
+
+-- Replace without yanking
+vim.keymap.set('x', '<leader>p', [["_dP]])
 
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
@@ -626,7 +646,9 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
+        html = {},
+        angularls = {},
         --
 
         lua_ls = {
@@ -902,7 +924,7 @@ require('lazy').setup({
     main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
-      ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
+      ensure_installed = { 'css', 'javascript', 'typescript', 'tsx', 'json', 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
       -- Autoinstall languages that are not installed
       auto_install = true,
       highlight = {
@@ -914,6 +936,23 @@ require('lazy').setup({
       },
       indent = { enable = true, disable = { 'ruby' } },
     },
+    config = function()
+      vim.api.nvim_create_autocmd('FileType', {
+        callback = function()
+          vim.opt.foldenable = false
+          vim.opt.foldlevel = 100
+
+          if require('nvim-treesitter.parsers').has_parser() then
+            vim.opt.foldmethod = 'expr'
+            -- vim.opt.foldexpr = vim.treesitter.foldexpr()
+            -- vim.opt.foldexpr = 'vim.treesitter.foldexpr()'
+            vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+          else
+            vim.opt.foldmethod = 'syntax'
+          end
+        end,
+      })
+    end,
     -- There are additional nvim-treesitter modules that you can use to interact
     -- with nvim-treesitter. You should go explore a few and see what interests you:
     --
