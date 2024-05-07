@@ -162,7 +162,7 @@ vim.opt.inccommand = 'split'
 vim.opt.cursorline = true
 
 -- Minimal number of screen lines to keep above and below the cursor.
-vim.opt.scrolloff = 10
+vim.opt.scrolloff = 5
 
 -- if vim.api.nvim_win_get_option(0, 'diff') then
 vim.opt.diffopt:append 'context:99999'
