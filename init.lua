@@ -166,6 +166,7 @@ vim.opt.scrolloff = 10
 
 -- if vim.api.nvim_win_get_option(0, 'diff') then
 vim.opt.diffopt:append 'context:99999'
+vim.opt.fillchars = 'diff: '
 -- end
 
 -- vim.opt.foldmethod = 'syntax'
