@@ -209,7 +209,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<leader>te', vim.cmd.Ex)
 
 -- Delete without yanking
-vim.keymap.set({'n', 'v'}, '<leader>d', [["_d]])
+vim.keymap.set({ 'n', 'v' }, '<leader>d', [["_d]])
 
 -- Replace without yanking
 vim.keymap.set('x', '<leader>p', [["_dP]])
