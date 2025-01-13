@@ -441,6 +441,9 @@ require('lazy').setup({
       vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
       vim.keymap.set('n', '<leader>sc', builtin.git_status, { desc = '[S]earch [C]hanges' })
+      vim.keymap.set('n', '<leader>.', function()
+        builtin.find_files { cwd = vim.fn.expand '%:p:h' }
+      end, { desc = 'Search Sibling Files' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
