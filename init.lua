@@ -414,6 +414,11 @@ require('lazy').setup({
         --   mappings = {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
         --   },
+        --   layout_strategy = 'horizontal',
+        --   sorting_strategy = 'ascending',
+        --   layout_config = {
+        --     prompt_position = 'top',
+        --   },
         -- },
         -- pickers = {}
         extensions = {
